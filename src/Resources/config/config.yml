@@ -1,0 +1,7 @@
+feelunique_ordering:
+    promotions:
+        # 3 for the price of 2 on lipstick
+        -
+            apply_discount_on: 3
+            category: lipstick
+            enabled: true
