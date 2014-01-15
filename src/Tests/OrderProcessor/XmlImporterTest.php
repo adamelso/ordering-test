@@ -15,6 +15,8 @@ class XmlImporterTest extends \PHPUnit_Framework_TestCase
 
     public function testImport()
     {
+        $this->assertInstanceOf('\\SimpleXMLElement', $this->xmlImporter->getXmlOrderData());
+
         $order = $this->xmlImporter->import();
 
         $order->calculateTotal();

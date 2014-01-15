@@ -31,6 +31,14 @@ class XmlImporter
     }
 
     /**
+     * @return \SimpleXMLElement
+     */
+    public function getXmlOrderData()
+    {
+        return $this->orderData;
+    }
+
+    /**
      * @return Order
      */
     public function import()
