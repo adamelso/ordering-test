@@ -10,6 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 
+use FeelUnique\Ordering\OrderProcessor\XmlImporter;
+
 /*
  * @author Adam Elsodaney <adam.elso@gmail.com>
  */
@@ -30,8 +32,29 @@ class OrderCommand extends Command
 
         $fs = new Filesystem();
 
-        if (!$fs->exists($pathToXmlFile)) {
-            $output->writeln(sprintf('<error>The XML file "%s" could not be found</error>', $pathToXmlFile));
+        if (!$pathToXmlFile) {
+            $dialog = $this->getHelperSet()->get('dialog');
+
+            $pathToXmlFile = $dialog->ask(
+                $output,
+                'Please specify the XML file to import: ',
+                false,
+                array('src/Resources/data/order.xml', 'order.xml')
+            );
         }
+
+        $output->writeln(
+            $fs->exists(getcwd() . $pathToXmlFile)
+                ? sprintf('<error>The XML file "%s" could not be found</error>', $pathToXmlFile)
+                : sprintf('<info>Reading XML file "%s"</info>', $pathToXmlFile)
+        );
+
+        $xmlImporter = new XmlImporter($pathToXmlFile);
+
+        $order = $xmlImporter->import();
+
+        $output->writeln(
+            $order->calculateTotal()->getTotal()
+        );
     }
 }
