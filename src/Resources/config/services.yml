@@ -1,14 +1,6 @@
 parameters:
-    order.xml.filename:         order.xml
-    order_transaction.class:    FeelUnique\Ordering\Processor\OrderTransaction
-    xml_importer.class:         FeelUnique\Ordering\Processor\XmlImporter
+    xml_importer.class: FeelUnique\Ordering\OrderProcessor\XmlImporter
 
 services:
     xml_importer:
-        class:            "%xml_importer.class%"
-    order_transaction:
-        class:            "%order_transaction.class%"
-        factory_service:   xml_importer
-        factory_method:    generateOrderTransaction
-        arguments:
-            - "%order.xml.filename%"
+        class: "%xml_importer.class%"

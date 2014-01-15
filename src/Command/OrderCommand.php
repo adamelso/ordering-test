@@ -49,9 +49,9 @@ class OrderCommand extends Command
                 : sprintf('<info>Reading XML file "%s"</info>', $pathToXmlFile)
         );
 
-        $xmlImporter = new XmlImporter($pathToXmlFile);
+        $xmlImporter = $this->getApplication()->getContainer()->get('xml_importer');
 
-        $order = $xmlImporter->import();
+        $order = $xmlImporter->import($pathToXmlFile);
 
         $output->writeln(
             $order->calculateTotal()->getTotal()

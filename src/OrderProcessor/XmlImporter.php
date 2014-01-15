@@ -22,12 +22,11 @@ class XmlImporter
     protected $order;
 
     /**
-     * @param resource $xmlFile  The path to the XML file
+     *
      */
-    public function __construct($xmlFile)
+    public function __construct()
     {
         $this->order = new Order();
-        $this->orderData = simplexml_load_file($xmlFile);
     }
 
     /**
@@ -35,14 +34,21 @@ class XmlImporter
      */
     public function getXmlOrderData()
     {
+        if (!$this->orderData) {
+            throw new \RuntimeException('No XML data has been imported. XmlImporter::import($xmlFile) must be called first.');
+        }
+
         return $this->orderData;
     }
 
     /**
+     * @param resource $xmlFile  The path to the XML file
      * @return Order
      */
-    public function import()
+    public function import($xmlFile)
     {
+        $this->orderData = simplexml_load_file($xmlFile);
+
         $categories = array();
 
         foreach ($this->orderData->products[0] as $productData) {

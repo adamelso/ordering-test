@@ -10,14 +10,14 @@ class XmlImporterTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->xmlImporter = new XmlImporter(__DIR__.'/../../Resources/data/order.xml');
+        $this->xmlImporter = new XmlImporter();
     }
 
     public function testImport()
     {
-        $this->assertInstanceOf('\\SimpleXMLElement', $this->xmlImporter->getXmlOrderData());
+        $order = $this->xmlImporter->import(__DIR__.'/../../Resources/data/order.xml');
 
-        $order = $this->xmlImporter->import();
+        $this->assertInstanceOf('\\SimpleXMLElement', $this->xmlImporter->getXmlOrderData());
 
         $order->calculateTotal();
 
