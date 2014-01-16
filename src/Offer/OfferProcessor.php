@@ -11,26 +11,22 @@ use FeelUnique\Ordering\Model\PriceAdjustment;
  */
 class OfferProcessor
 {
-    protected $offers = array();
+    protected $offerContainer;
 
-    public function __construct(array $offers = array())
+    public function __construct(OfferContainer $offerContainer)
     {
-        foreach ($offers as $offer) {
-            if ($offer['enabled']) {
-                $this->offers[] = new ProductOffer($offer['offer']);
-            }
-        }
+        $this->offerContainer = $offerContainer;
     }
 
 
     public function getActiveOffers()
     {
-        return $this->offers;
+        return $this->offerContainer;
     }
 
     public function process(Order $order)
     {
-        foreach ($this->offers as $offer) {
+        foreach ($this->offerContainer as $offer) {
             foreach ($offer->getRules() as $rule) {
                 if (
                     $rule['type'] === ProductOffer::PRODUCT_COUNT_RULE &&

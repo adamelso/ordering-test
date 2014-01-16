@@ -2,15 +2,19 @@ parameters:
     xml_importer.class: FeelUnique\Ordering\OrderProcessor\XmlImporter
     order_processor.class: FeelUnique\Ordering\OrderProcessor\OrderProcessor
     offer_processor.class: FeelUnique\Ordering\Offer\OfferProcessor
+    offer_container.class: FeelUnique\Ordering\Offer\OfferContainer
 
 services:
     event_dispatcher:
         class: Symfony\Component\EventDispatcher\EventDispatcher
     xml_importer:
         class: "%xml_importer.class%"
+    offer_container:
+         class: "%offer_container.class%"
+         arguments: [ "%offers%" ]
     offer_processor:
         class: "%offer_processor.class%"
-        arguments: [ "%offers%" ]
+        arguments: [ "@offer_container" ]
     order_processor:
         class: "%order_processor.class%"
         arguments: [ "@offer_processor" ]

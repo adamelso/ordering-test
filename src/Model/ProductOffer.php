@@ -16,33 +16,25 @@ class ProductOffer
     const FIXED_DISCOUNT_ACTION      = 'fixed_discount';
     const PERCENTAGE_DISCOUNT_ACTION = 'percentage_discount';
 
+    protected $name;
+
     protected $rules;
 
     protected $actions;
 
-    public function __construct($name)
+    public function __construct()
     {
-        if (preg_match('/^(\d{1,2}) for the price of (\d{1,2})$/', $name, $matches)) {
-            $productCount = $matches[1];
+    }
 
-            $this->rules = array(
-                array(
-                    'count' => $productCount,
-                    'type' => static::PRODUCT_COUNT_RULE,
-                ),
-                // array(
-                //     'category' => null,
-                //     'type' => static::PRODUCT_CATEGORY_RULE
-                // )
-            );
+    public function getName()
+    {
+        return $this->name;
+    }
 
-            $this->actions = array(
-                array(
-                    'amount' => 100,
-                    'type' => static::PERCENTAGE_DISCOUNT_ACTION
-                )
-            );
-        }
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function getRules()
@@ -50,9 +42,21 @@ class ProductOffer
         return $this->rules;
     }
 
+    public function addRule($rule)
+    {
+        $this->rules[] = $rule;
+        return $this;
+    }
+
     public function getActions()
     {
         return $this->actions;
+    }
+
+    public function addAction($action)
+    {
+        $this->actions[] = $action;
+        return $this;
     }
 
     public function getProductCount()
