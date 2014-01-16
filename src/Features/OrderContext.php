@@ -8,14 +8,18 @@ use Behat\Behat\Context\BehatContext;
 use Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use FeelUnique\Ordering\Model\Product;
 
-//
-// Require 3rd-party libraries here:
-//
-//   require_once 'PHPUnit/Autoload.php';
-//   require_once 'PHPUnit/Framework/Assert/Functions.php';
-//
+use FeelUnique\Ordering\Model\Product;
+use FeelUnique\Ordering\Model\Category;
+use FeelUnique\Ordering\Model\Order;
+
+use FeelUnique\Ordering\Offer\OfferContainer;
+use FeelUnique\Ordering\Offer\OfferChecker;
+use FeelUnique\Ordering\Offer\OfferProcessor;
+use FeelUnique\Ordering\OrderProcessor\OrderProcessor;
+
+require_once 'PHPUnit/Autoload.php';
+require_once 'PHPUnit/Framework/Assert/Functions.php';
 
 /**
  * Order features context.
@@ -27,12 +31,18 @@ class OrderContext extends BehatContext
     /**
      * @var boolean[]
      */
-    private $offersAvailable = array(
+    protected $offersAvailable = array(
         '3 for the price of 2' => false,
         "Buy Shampoo & get Conditioner for 50% off" => false,
     );
 
-    private $products = array();
+    protected $products = array();
+
+    protected $unprocessedOrderTotal = 0;
+
+    protected $orderProcessor;
+
+    protected $order;
 
     /**
      * Initializes context.
@@ -44,14 +54,30 @@ class OrderContext extends BehatContext
     {
     }
 
+    private function createOrderProcessor()
+    {
+        $offerConfig = array();
+
+        foreach ($this->offersAvailable as $offerName => $isActive) {
+            $offerConfig[] = array(
+                'offer' => $offerName,
+                'active' => $isActive
+            );
+        }
+
+        $offerContainer = new OfferContainer($offerConfig);
+        $offerChecker = new OfferChecker($offerContainer);
+        $offerProcessor = new OfferProcessor($offerContainer, $offerChecker);
+        $this->orderProcessor = new OrderProcessor($offerProcessor);
+    }
+
     /**
      * @Given /^the "([^"]*)" offer is enabled$/
      */
     public function theOfferIsEnabled($offer)
     {
-        throw new PendingException();
-
         $this->offersAvailable[$offer] = true;
+        $this->createOrderProcessor();
     }
 
     /**
@@ -59,32 +85,46 @@ class OrderContext extends BehatContext
      */
     public function theFollowingProductsArePutOnTheOrder(TableNode $productsTable)
     {
-        throw new PendingException();
-
+        $order = new Order();
         $products = array();
         $categories = array();
 
         foreach ($productsTable->getHash() as $productHash) {
-            // $product = new Product();
+            $product = new Product();
+            $product
+                ->setTitle($productHash['Title'])
+                ->setCategory(new Category($productHash['Category']))
+                ->setPrice($productHash['Price'])
+            ;
+
+            $this->unprocessedOrderTotal += $productHash['Price'];
+
+            $order->addProduct($product);
+
+            $this->products[$productHash['Title']] = $product;
         }
 
-        $promotions = $this->offersAvailable['3 for the price of 2'];
+        $this->orderProcessor->processOrder($order);
+        $this->order = $order;
     }
 
     /**
      * @Then /^I should get the "([^"]*)" for free$/
      */
-    public function iShouldGetTheForFree($arg1)
+    public function iShouldGetTheForFree($productTitle)
     {
-        throw new PendingException();
+        $product = $this->products[$productTitle];
+        $total = $this->order->calculateTotal()->getTotal();
+
+        assertEquals($product->getPrice(), $this->unprocessedOrderTotal - $total);
     }
 
     /**
      * @Given /^the order total should be "([^"]*)"$/
      */
-    public function theOrderTotalShouldBe($arg1)
+    public function theOrderTotalShouldBe($total)
     {
-        throw new PendingException();
+        assertEquals($this->order->getTotal(), $total);
     }
 
     /**
@@ -93,6 +133,9 @@ class OrderContext extends BehatContext
     public function theOfferIsDisabled($offer)
     {
         $this->offersAvailable[$offer] = false;
+
+        $this->createOrderProcessor();
+
     }
 
     /**
