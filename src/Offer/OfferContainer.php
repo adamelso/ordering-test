@@ -77,28 +77,34 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
 
     public static function createOfferFromName($name)
     {
-        if (preg_match('/^(\d{1,2}) for the price of (\d{1,2})$/', $name, $matches)) {
-            $productCount = $matches[1];
-
-            $rules = array(
-                array(
-                    'count' => $productCount,
-                    'type' => ProductOffer::PRODUCT_COUNT_RULE,
-                ),
-                // array(
-                //     'category' => null,
-                //     'type' => static::PRODUCT_CATEGORY_RULE
-                // )
-            );
-
-            $actions = array(
-                array(
-                    'amount' => 100,
-                    'type' => ProductOffer::PERCENTAGE_DISCOUNT_ACTION
-                )
-            );
-
-            return static::createOffer($name, $rules, $actions);
+        switch (true) {
+            case preg_match('/^(\d{1,2}) for the price of (\d{1,2})$/', $name, $matches):
+                return static::createBulkOffer($name, $matches[1]);
+            default:
+                throw new \InvalidArgumentException(sprintf("'%s' is not a recognized offer", $name));
         }
+    }
+
+    public static function createBulkOffer($name, $productCount)
+    {
+        $rules = array(
+            array(
+                'count' => $productCount,
+                'type' => ProductOffer::PRODUCT_COUNT_RULE,
+            ),
+            // array(
+            //     'category' => null,
+            //     'type' => static::PRODUCT_CATEGORY_RULE
+            // )
+        );
+
+        $actions = array(
+            array(
+                'amount' => 100,
+                'type' => ProductOffer::PERCENTAGE_DISCOUNT_ACTION
+            )
+        );
+
+        return static::createOffer($name, $rules, $actions);
     }
 }
