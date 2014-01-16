@@ -27,7 +27,7 @@ class OrderingExtension implements ExtensionInterface
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $container->setParameter('promotions', $config['promotions']);
+        $container->setParameter('offers', $config['offers']);
     }
 
     /**
