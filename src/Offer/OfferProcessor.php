@@ -29,8 +29,8 @@ class OfferProcessor
         foreach ($this->offerContainer as $offer) {
             foreach ($offer->getRules() as $rule) {
                 if (
-                    $rule['type'] === ProductOffer::PRODUCT_COUNT_RULE &&
-                    $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $rule['count'])
+                    $rule->getType() === ProductOffer::PRODUCT_COUNT_RULE &&
+                    $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $rule->getProductCount())
                 ) {
                     foreach ($order->getCheapestProducts($numberOfEligibleProducts) as $product) {
                         $priceAdjustment = $this->createPriceAdjustment($offer->getActions(), $product->getAmount());

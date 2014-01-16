@@ -24,6 +24,7 @@ class ProductOffer
 
     public function __construct()
     {
+        $this->rules = new ArrayCollection();
     }
 
     public function getName()
@@ -44,6 +45,7 @@ class ProductOffer
 
     public function addRule($rule)
     {
+        $rule->setOffer($this);
         $this->rules[] = $rule;
         return $this;
     }
@@ -57,14 +59,5 @@ class ProductOffer
     {
         $this->actions[] = $action;
         return $this;
-    }
-
-    public function getProductCount()
-    {
-        if ($this->getType() === static::PRODUCT_COUNT_RULE) {
-            return $this->rules['count'];
-        }
-
-        throw new \DomainException("Offer is not subject to a product count rule.");
     }
 }

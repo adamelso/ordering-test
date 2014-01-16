@@ -6,18 +6,38 @@ use FeelUnique\Ordering\Model\Rule;
 use FeelUnique\Ordering\Model\Action;
 use FeelUnique\Ordering\Model\ProductOffer;
 
+/**
+ * @author Adam Elsodaney <adam.elso@gmail.com>
+ */
 class OfferContainer implements \ArrayAccess, \IteratorAggregate
 {
+    /**
+     * @var array
+     */
     protected $offers;
 
+    /**
+     * @param array $data
+     */
     public function __construct(array $data = array())
     {
         foreach ($data as $offerName => $offerData) {
             if ($offerData['enabled']) {
-                $offer = array_key_exists('offer', $offerData)
-                    ? $this->createOfferFromName($offerData['offer'])
-                    : $this->createOffer($offerData['name'], $offerData['rules'], $offerData['actions'])
-                ;
+                if (array_key_exists('offer', $offerData)) {
+                    $offer = $this->createOfferFromName($offerData['offer']);
+                } else {
+                    $rules = array();
+
+                    foreach ($offerData['rules'] as $ruleData) {
+                        $rules[] = $this->createRule($ruleData['type'], $ruleData['configuration']);
+                    }
+
+                    $offer = $this->createOffer(
+                        $offerData['name'],
+                        $rules,
+                        $offerData['actions']
+                    );
+                }
 
                 $this->offsetSet($offerName, $offer);
             }
@@ -50,6 +70,24 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
+     * Create offer rule of given type and configuration.
+     *
+     * @param string $type
+     * @param array  $configuration
+     *
+     * @return Rule
+     */
+    public static function createRule($type, array $configuration)
+    {
+        $rule = new Rule();
+
+        $rule->setType($type);
+        $rule->setConfiguration($configuration);
+
+        return $rule;
+    }
+
+    /**
      * Create offer with set of rules and actions.
      *
      * @param string $name
@@ -75,6 +113,11 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
         return $offer;
     }
 
+    /**
+     * @param string $name
+     * @return ProductOffer
+     * @throws \InvalidArgumentException
+     */
     public static function createOfferFromName($name)
     {
         switch (true) {
@@ -85,18 +128,20 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
         }
     }
 
+    /**
+     * @param string $name
+     * @param integer $productCount
+     * @return ProductOffer
+     */
     public static function createBulkOffer($name, $productCount)
     {
-        $rules = array(
-            array(
-                'count' => $productCount,
-                'type' => ProductOffer::PRODUCT_COUNT_RULE,
-            ),
-            // array(
-            //     'category' => null,
-            //     'type' => static::PRODUCT_CATEGORY_RULE
-            // )
-        );
+        $bulkCountRule = static::createRule(Rule::PRODUCT_COUNT_RULE, array(
+            'count' => $productCount
+        ));
+
+        $bulkCategoryRule = static::createRule(Rule::PRODUCT_CATEGORY_RULE, array(
+            'category' => null,
+        ));
 
         $actions = array(
             array(
@@ -105,6 +150,6 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
             )
         );
 
-        return static::createOffer($name, $rules, $actions);
+        return static::createOffer($name, array($bulkCountRule), $actions);
     }
 }
