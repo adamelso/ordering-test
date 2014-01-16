@@ -25,15 +25,9 @@ class OrderProcessor
      *
      * @param OfferProcessor $offerProcessor
      */
-    public function __construct(OfferProcessor $offerProcessor, array $offers = array())
+    public function __construct(OfferProcessor $offerProcessor)
     {
         $this->offerProcessor = $offerProcessor;
-
-        foreach ($offers as $offer) {
-            if ($offer['enabled']) {
-                $this->offers[] = new ProductOffer($offer['offer']);
-            }
-        }
     }
 
     /**
@@ -41,20 +35,6 @@ class OrderProcessor
      */
     public function processOrder(Order $order)
     {
-        // $this->offerProcessor->process($order);
-        foreach ($this->offers as $offer) {
-            foreach ($offer->getRules() as $rule) {
-                if (
-                    $rule['type'] === ProductOffer::PRODUCT_COUNT_RULE &&
-                    $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $rule['count'])
-                ) {
-                    foreach ($order->getCheapestProducts($numberOfEligibleProducts) as $product) {
-                        $priceAdjustment = $this->offerProcessor->createPriceAdjustment($product->getPrice());
-
-                        $order->addAdjustment($priceAdjustment);
-                    }
-                }
-            }
-        }
+        $this->offerProcessor->process($order);
     }
 }

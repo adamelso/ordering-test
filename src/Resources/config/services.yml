@@ -10,6 +10,7 @@ services:
         class: "%xml_importer.class%"
     offer_processor:
         class: "%offer_processor.class%"
+        arguments: [ "%offers%" ]
     order_processor:
         class: "%order_processor.class%"
-        arguments: [ "@offer_processor", "%offers%" ]
+        arguments: [ "@offer_processor" ]

@@ -13,7 +13,7 @@ class OrderProcessorTest extends \PHPUnit_Framework_TestCase
         //$this->orderProcessor = new OrderProcessor();
     }
 
-    public function testProcess()
+    public function testProcessOrder()
     {
 
     }
