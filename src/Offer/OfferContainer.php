@@ -88,6 +88,24 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
+     * Create offer action of given type and configuration.
+     *
+     * @param string $type
+     * @param array  $configuration
+     *
+     * @return Action
+     */
+    public static function createAction($type, array $configuration)
+    {
+        $action = new Action();
+
+        $action->setType($type);
+        $action->setConfiguration($configuration);
+
+        return $action;
+    }
+
+    /**
      * Create offer with set of rules and actions.
      *
      * @param string $name
@@ -143,13 +161,10 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
             'category' => null,
         ));
 
-        $actions = array(
-            array(
-                'amount' => 100,
-                'type' => ProductOffer::PERCENTAGE_DISCOUNT_ACTION
-            )
-        );
+        $fullDiscountAction = static::createAction(Action::PERCENTAGE_DISCOUNT_ACTION, array(
+            'amount' => 100
+        ));
 
-        return static::createOffer($name, array($bulkCountRule), $actions);
+        return static::createOffer($name, array($bulkCountRule), array($fullDiscountAction));
     }
 }

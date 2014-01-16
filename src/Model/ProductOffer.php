@@ -21,6 +21,7 @@ class ProductOffer
     public function __construct()
     {
         $this->rules = new ArrayCollection();
+        $this->actions = new ArrayCollection();
     }
 
     public function getName()
@@ -53,6 +54,7 @@ class ProductOffer
 
     public function addAction($action)
     {
+        $action->setOffer($this);
         $this->actions[] = $action;
         return $this;
     }

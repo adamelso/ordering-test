@@ -34,7 +34,7 @@ class OfferProcessor
                     $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $rule->getProductCount())
                 ) {
                     foreach ($order->getCheapestProducts($numberOfEligibleProducts) as $product) {
-                        $priceAdjustment = $this->createPriceAdjustment($offer->getActions(), $product->getAmount());
+                        $priceAdjustment = $this->createPriceAdjustment($offer->getActions(), $product->getPrice());
 
                         $order->addAdjustment($priceAdjustment);
                     }
@@ -43,14 +43,14 @@ class OfferProcessor
         }
     }
 
-    public function createPriceAdjustment(array $actions, $amount)
+    public function createPriceAdjustment($actions, $amount)
     {
         $priceAdjustment = new PriceAdjustment();
 
         foreach ($actions as $action) {
-            switch ($action['type']) {
+            switch ($action->getType()) {
                 case ProductOffer::PERCENTAGE_DISCOUNT_ACTION:
-                    $ratio = $action['amount'] / 100;
+                    $ratio = $action->getAmount() / 100;
                     $priceAdjustment->setAmount($amount * -1 * $ratio);
                     break;
             }
