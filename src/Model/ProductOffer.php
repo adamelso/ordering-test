@@ -63,20 +63,4 @@ class ProductOffer
 
         throw new \DomainException("Offer is not subject to a product count rule.");
     }
-
-    public function createPriceAdjustment($amount)
-    {
-        $priceAdjustment = new PriceAdjustment();
-
-        foreach ($this->actions as $action) {
-            switch ($action['type']) {
-                case static::PERCENTAGE_DISCOUNT_ACTION:
-                    $ratio = $action['amount'] / 100;
-                    $priceAdjustment->setAmount($amount * -1 * $ratio);
-                    break;
-            }
-        }
-
-        return $priceAdjustment;
-    }
 }

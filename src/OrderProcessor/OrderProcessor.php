@@ -25,9 +25,9 @@ class OrderProcessor
      *
      * @param OfferProcessor $offerProcessor
      */
-    public function __construct(array $offers = array())
+    public function __construct(OfferProcessor $offerProcessor, array $offers = array())
     {
-        // $this->offerProcessor = $offerProcessor;
+        $this->offerProcessor = $offerProcessor;
 
         foreach ($offers as $offer) {
             if ($offer['enabled']) {
@@ -49,7 +49,7 @@ class OrderProcessor
                     $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $rule['count'])
                 ) {
                     foreach ($order->getCheapestProducts($numberOfEligibleProducts) as $product) {
-                        $priceAdjustment = $offer->createPriceAdjustment($product->getPrice());
+                        $priceAdjustment = $this->offerProcessor->createPriceAdjustment($product->getPrice());
 
                         $order->addAdjustment($priceAdjustment);
                     }
