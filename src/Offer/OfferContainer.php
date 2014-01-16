@@ -22,7 +22,7 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
     public function __construct(array $data = array())
     {
         foreach ($data as $offerName => $offerData) {
-            if ($offerData['enabled']) {
+            if ($offerData['active']) {
                 if (array_key_exists('offer', $offerData)) {
                     $offer = $this->createOfferFromName($offerData['offer']);
                 } else {

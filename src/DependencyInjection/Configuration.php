@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('offer')
                                 ->cannotBeEmpty()
                                 ->end()
-                            ->booleanNode('enabled')
+                            ->booleanNode('active')
                                 ->defaultTrue()
                                 ->end()
                         ->end()

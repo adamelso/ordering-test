@@ -105,17 +105,4 @@ class Rule
 
         return $this;
     }
-
-    /**
-     * @return integer
-     * @throws \DomainException
-     */
-    public function getProductCount()
-    {
-        if ($this->getType() === static::PRODUCT_COUNT_RULE) {
-            return $this->configuration['count'];
-        }
-
-        throw new \DomainException("This rule is not configured to be a product count rule.");
-    }
 }

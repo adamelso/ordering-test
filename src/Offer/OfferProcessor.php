@@ -13,10 +13,12 @@ use FeelUnique\Ordering\Model\PriceAdjustment;
 class OfferProcessor
 {
     protected $offerContainer;
+    protected $offerChecker;
 
-    public function __construct(OfferContainer $offerContainer)
+    public function __construct(OfferContainer $offerContainer, OfferChecker $offerChecker)
     {
         $this->offerContainer = $offerContainer;
+        $this->offerChecker = $offerChecker;
     }
 
 
@@ -28,16 +30,13 @@ class OfferProcessor
     public function process(Order $order)
     {
         foreach ($this->offerContainer as $offer) {
-            foreach ($offer->getRules() as $rule) {
-                if (
-                    $rule->getType() === Rule::PRODUCT_COUNT_RULE &&
-                    $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $rule->getProductCount())
-                ) {
-                    foreach ($order->getCheapestProducts($numberOfEligibleProducts) as $product) {
-                        $priceAdjustment = $this->createPriceAdjustment($offer->getActions(), $product->getPrice());
+            if ($this->offerChecker->isEligible($order, $offer)) {
+                $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $offer->getUsageLimit());
 
-                        $order->addAdjustment($priceAdjustment);
-                    }
+                foreach ($order->getCheapestProducts($numberOfEligibleProducts) as $product) {
+                    $priceAdjustment = $this->createPriceAdjustment($offer->getActions(), $product->getPrice());
+
+                    $order->addAdjustment($priceAdjustment);
                 }
             }
         }
