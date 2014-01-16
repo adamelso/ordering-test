@@ -3,6 +3,7 @@
 namespace FeelUnique\Ordering\Offer;
 
 use FeelUnique\Ordering\Model\Order;
+use FeelUnique\Ordering\Model\Rule;
 use FeelUnique\Ordering\Model\ProductOffer;
 use FeelUnique\Ordering\Model\PriceAdjustment;
 
@@ -29,7 +30,7 @@ class OfferProcessor
         foreach ($this->offerContainer as $offer) {
             foreach ($offer->getRules() as $rule) {
                 if (
-                    $rule->getType() === ProductOffer::PRODUCT_COUNT_RULE &&
+                    $rule->getType() === Rule::PRODUCT_COUNT_RULE &&
                     $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $rule->getProductCount())
                 ) {
                     foreach ($order->getCheapestProducts($numberOfEligibleProducts) as $product) {

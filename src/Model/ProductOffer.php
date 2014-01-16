@@ -9,10 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class ProductOffer
 {
-    const PRODUCT_TOTAL_RULE = 'product_total';
-    const PRODUCT_COUNT_RULE = 'product_count';
-    const PRODUCT_CATEGORY_RULE = 'product_category';
-
     const FIXED_DISCOUNT_ACTION      = 'fixed_discount';
     const PERCENTAGE_DISCOUNT_ACTION = 'percentage_discount';
 
