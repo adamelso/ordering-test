@@ -31,6 +31,7 @@ class OrderCommand extends Command
         $pathToXmlFile = $input->getArgument('file');
 
         $fs = new Filesystem();
+        $container = $this->getApplication()->getContainer();
 
         if (!$pathToXmlFile) {
             $dialog = $this->getHelperSet()->get('dialog');
@@ -49,9 +50,12 @@ class OrderCommand extends Command
                 : sprintf('<info>Reading XML file "%s"</info>', $pathToXmlFile)
         );
 
-        $xmlImporter = $this->getApplication()->getContainer()->get('xml_importer');
+        $xmlImporter = $container->get('xml_importer');
+        $orderProcessor = $container->get('order_processor');
 
         $order = $xmlImporter->import($pathToXmlFile);
+
+        $orderProcessor->processOrder($order);
 
         $output->writeln(
             $order->calculateTotal()->getTotal()

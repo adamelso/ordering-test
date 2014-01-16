@@ -1,6 +1,10 @@
 parameters:
     xml_importer.class: FeelUnique\Ordering\OrderProcessor\XmlImporter
+    order_processor.class: FeelUnique\Ordering\OrderProcessor\OrderProcessor
 
 services:
     xml_importer:
         class: "%xml_importer.class%"
+    order_processor:
+        class: "%order_processor.class%"
+        arguments: [ %offers% ]

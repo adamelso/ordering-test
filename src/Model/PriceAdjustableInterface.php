@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @author Adam Elsodaney <adam.elso@gmail.com>
  */
-interface ProductAdjustableInterface
+interface PriceAdjustableInterface
 {
     /**
      * @return ArrayCollection

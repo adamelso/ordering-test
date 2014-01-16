@@ -70,7 +70,7 @@ class PriceAdjustment
     /**
      *
      */
-    public function setAdjustable(ProductAdjustableInterface $adjustable = null)
+    public function setAdjustable(PriceAdjustableInterface $adjustable = null)
     {
         $this->order = $this->product = null;
 

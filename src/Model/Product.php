@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @author Adam Elsodaney <adam.elso@gmail.com>
  */
-class Product implements ProductAdjustableInterface
+class Product implements PriceAdjustableInterface
 {
     /**
      * @var string
