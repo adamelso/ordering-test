@@ -3,6 +3,8 @@ parameters:
     order_processor.class: FeelUnique\Ordering\OrderProcessor\OrderProcessor
 
 services:
+    event_dispatcher:
+        class: Symfony\Component\EventDispatcher\EventDispatcher
     xml_importer:
         class: "%xml_importer.class%"
     order_processor:
