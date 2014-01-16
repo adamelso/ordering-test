@@ -116,7 +116,7 @@ class OrderContext extends BehatContext
         $product = $this->products[$productTitle];
         $total = $this->order->calculateTotal()->getTotal();
 
-        assertEquals($product->getPrice(), $this->unprocessedOrderTotal - $total);
+        assertEquals(-1 * $product->getPrice(), $this->order->getAdjustmentsTotal());
     }
 
     /**
@@ -124,7 +124,7 @@ class OrderContext extends BehatContext
      */
     public function theOrderTotalShouldBe($total)
     {
-        assertEquals($this->order->getTotal(), $total);
+        assertEquals((float) $total, $this->order->calculateTotal()->getTotal());
     }
 
     /**
@@ -143,7 +143,7 @@ class OrderContext extends BehatContext
      */
     public function iShouldNotGetAnythingForFree()
     {
-        throw new PendingException();
+        assertEquals(0, $this->order->getAdjustmentsTotal());
     }
 
     /**

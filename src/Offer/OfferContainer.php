@@ -46,7 +46,10 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
 
     public function getIterator()
     {
-        return new \ArrayIterator($this->offers);
+        return count($this->offers)
+            ? new \ArrayIterator($this->offers)
+            : new \ArrayIterator(array())
+        ;
     }
 
     public function offsetSet($offerName, $offer)
