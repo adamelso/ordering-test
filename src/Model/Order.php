@@ -4,11 +4,12 @@ namespace FeelUnique\Ordering\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * @author Adam Elsodaney <adam.elso@gmail.com>
  */
-class Order
+class Order implements PriceAdjustableInterface
 {
     /**
      * Products in order.
@@ -271,29 +272,13 @@ class Order
     /**
      *
      */
-    public function setState($state)
-    {
-        $this->state = $state;
-    }
-
-    /**
-     *
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     *
-     */
     public function getTotalProducts()
     {
         return $this->countProducts();
     }
 
     /**
-     *
+     * @return integer
      */
     public function getTotalQuantity()
     {
@@ -307,10 +292,40 @@ class Order
     }
 
     /**
-     *
+     * @return boolean
      */
     public function isEmpty()
     {
         return 0 === $this->countProducts();
+    }
+
+    /**
+     * @return integer
+     */
+    public function getOfferSubjectProductTotal()
+    {
+        return $this->getProductsTotal();
+    }
+
+    /**
+     * @return integer
+     */
+    public function getOfferSubjectProductCount()
+    {
+        return $this->products->count();
+    }
+
+    public function getCheapestProducts($maxResults = 1, $categoryFilter = null)
+    {
+        $criteria = Criteria::create();
+
+        if ($categoryFilter) {
+            $criteria->where(Criteria::expr()->in("category", $categoryFilter));
+        }
+
+        $criteria->orderBy(array("price" => Criteria::ASC));
+        $criteria->setMaxResults($maxResults);
+
+        return $this->products->matching($criteria);
     }
 }
