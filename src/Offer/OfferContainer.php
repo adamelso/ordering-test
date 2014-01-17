@@ -5,6 +5,7 @@ namespace FeelUnique\Ordering\Offer;
 use FeelUnique\Ordering\Model\Rule;
 use FeelUnique\Ordering\Model\Action;
 use FeelUnique\Ordering\Model\ProductOffer;
+use FeelUnique\Ordering\Model\Category;
 
 /**
  * @author Adam Elsodaney <adam.elso@gmail.com>
@@ -144,9 +145,32 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
         switch (true) {
             case preg_match('/^(\d{1,2}) for the price of (\d{1,2})$/', $name, $matches):
                 return static::createBulkOffer($name, $matches[1]);
+
+            case preg_match('/^Buy ([A-z\'\-\ ]+) & get ([A-z\'\-\ ]+) for (100|\d{1,2})% off$/', $name, $matches):
+                return static::createCombinationOffer($name, $matches[1], $matches[2], $matches[3]);
+
             default:
                 throw new \InvalidArgumentException(sprintf("'%s' is not a recognized offer", $name));
         }
+    }
+
+    /**
+     * @param string $name
+     * @param integer $productCount
+     * @return ProductOffer
+     */
+    public static function createCombinationOffer($name, $categoryQualifier, $categoryDiscountable, $discountPercentage)
+    {
+        $comboCategoryRule = static::createRule(Rule::PRODUCT_CATEGORY_COMBINATION_RULE, array(
+            'qualifier' => new Category($categoryQualifier),
+            'discountable' => new Category($categoryDiscountable),
+        ));
+
+        $halfDiscountAction = static::createAction(Action::PERCENTAGE_DISCOUNT_ACTION, array(
+            'amount' => 50
+        ));
+
+        return static::createOffer($name, array($comboCategoryRule), array($halfDiscountAction));
     }
 
     /**

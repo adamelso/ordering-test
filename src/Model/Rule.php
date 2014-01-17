@@ -12,6 +12,7 @@ class Rule
     const PRODUCT_TOTAL_RULE    = 'product_total';
     const PRODUCT_COUNT_RULE    = 'product_count';
     const PRODUCT_CATEGORY_RULE = 'product_category';
+    const PRODUCT_CATEGORY_COMBINATION_RULE = 'product_combination_category';
 
     /**
      * Type

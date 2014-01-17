@@ -25,6 +25,16 @@ class OfferChecker
         // $this->dispatcher = $dispatcher;
     }
 
+    public function createRuleChecker($type)
+    {
+        switch ($type) {
+            case Rule::PRODUCT_COUNT_RULE:
+                return new CountRuleChecker();
+            case Rule::PRODUCT_CATEGORY_COMBINATION_RULE:
+                return new CategoryCombinationRuleChecker();
+        }
+    }
+
     /**
      *
      */
@@ -37,18 +47,18 @@ class OfferChecker
         }
 
         foreach ($offer->getRules() as $rule) {
-            if (! (
-                $rule->getType() === Rule::PRODUCT_COUNT_RULE &&
-                $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $offer->getUsageLimit())
-            )) {
-                return false;
-            }
-
-            // $checker = $this->offerContainer->getChecker($rule->getType());
-
-            // if (false === $checker->isEligible($order, $rule->getConfiguration())) {
+            // if (! (
+            //     $rule->getType() === Rule::PRODUCT_COUNT_RULE &&
+            //     $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $offer->getUsageLimit())
+            // )) {
             //     return false;
             // }
+
+            $checker = $this->createRuleChecker($rule->getType());
+
+            if (false === $checker->isEligible($order, $rule->getConfiguration())) {
+                return false;
+            }
         }
 
         return true;

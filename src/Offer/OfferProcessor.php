@@ -27,17 +27,22 @@ class OfferProcessor
         return $this->offerContainer;
     }
 
+    public function applyOffer($order, $offer)
+    {
+            $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $offer->getUsageLimit());
+
+            foreach ($order->getCheapestProducts($numberOfEligibleProducts) as $product) {
+                $priceAdjustment = $this->createPriceAdjustment($offer->getActions(), $product->getPrice());
+
+                $order->addAdjustment($priceAdjustment);
+            }
+    }
+
     public function process(Order $order)
     {
         foreach ($this->offerContainer as $offer) {
             if ($this->offerChecker->isEligible($order, $offer)) {
-                $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $offer->getUsageLimit());
-
-                foreach ($order->getCheapestProducts($numberOfEligibleProducts) as $product) {
-                    $priceAdjustment = $this->createPriceAdjustment($offer->getActions(), $product->getPrice());
-
-                    $order->addAdjustment($priceAdjustment);
-                }
+                $this->applyOffer($order, $offer);
             }
         }
     }
