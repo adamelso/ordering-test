@@ -316,12 +316,11 @@ class Order implements PriceAdjustableInterface
             return $this->products->count();
         }
 
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->in("category", array($categoryFilter)));
+        $filtered = $this->products->filter(function($element) use ($categoryFilter) {
+            return $element->getCategory()->getName() === $categoryFilter;
+        });
 
-        return $this->products->matching($criteria)->count();
-
-
+        return $filtered->count();
     }
 
     public function getCheapestProducts($maxResults = 1, $categoryFilter = null)
@@ -329,7 +328,7 @@ class Order implements PriceAdjustableInterface
         $criteria = Criteria::create();
 
         if ($categoryFilter) {
-            $criteria->where(Criteria::expr()->in("category", array($categoryFilter)));
+            $criteria->where(Criteria::expr()->in("category", array(new Category($categoryFilter))));
         }
 
         $criteria->orderBy(array("price" => Criteria::ASC));

@@ -13,9 +13,9 @@ class CategoryCombinationRuleChecker implements RuleCheckerInterface
     public function isEligible(Order $order, array $configuration)
     {
         return $order->getOfferSubjectProductCount(
-            new Category($configuration['qualifier'])
+            $configuration['qualifier']
         ) && $order->getOfferSubjectProductCount(
-            new Category($configuration['discountable'])
+            $configuration['discountable']
         );
     }
 }

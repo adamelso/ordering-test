@@ -162,12 +162,14 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
     public static function createCombinationOffer($name, $categoryQualifier, $categoryDiscountable, $discountPercentage)
     {
         $comboCategoryRule = static::createRule(Rule::PRODUCT_CATEGORY_COMBINATION_RULE, array(
-            'qualifier' => new Category($categoryQualifier),
-            'discountable' => new Category($categoryDiscountable),
+            'qualifier' => $categoryQualifier,
+            'discountable' => $categoryDiscountable,
+            'count' => 1,
         ));
 
         $halfDiscountAction = static::createAction(Action::PERCENTAGE_DISCOUNT_ACTION, array(
-            'amount' => 50
+            'amount' => 50,
+            'category' => $categoryDiscountable,
         ));
 
         return static::createOffer($name, array($comboCategoryRule), array($halfDiscountAction));

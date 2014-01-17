@@ -76,6 +76,10 @@ class OrderContext extends BehatContext
      */
     public function theOfferIsEnabled($offer)
     {
+        foreach ($this->offersAvailable as $offerName => $isActive) {
+            $this->offersAvailable[$offerName] = false;
+        }
+
         $this->offersAvailable[$offer] = true;
         $this->createOrderProcessor();
     }
@@ -135,7 +139,6 @@ class OrderContext extends BehatContext
         $this->offersAvailable[$offer] = false;
 
         $this->createOrderProcessor();
-
     }
 
     /**
@@ -149,8 +152,17 @@ class OrderContext extends BehatContext
     /**
      * @Then /^I should get a (\d+)% discount on "([^"]*)"$/
      */
-    public function iShouldGetADiscountOn($arg1, $arg2)
+    public function iShouldGetADiscountOn($percentageReduction, $productTitle)
     {
-        throw new PendingException();
+        $product = $this->products[$productTitle];
+
+        $this->order->calculateTotal();
+
+        $total = $this->order->getTotal();
+
+        $reducedPrice = $product->getPrice() * ($percentageReduction / 100);
+        $reduction = $reducedPrice - $product->getPrice();
+
+        assertEquals($reduction, $this->order->getAdjustmentsTotal());
     }
 }

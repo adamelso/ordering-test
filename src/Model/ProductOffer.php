@@ -47,9 +47,12 @@ class ProductOffer
     {
         $rule->setOffer($this);
 
-        if ($rule->getType() === Rule::PRODUCT_COUNT_RULE) {
-            $config = $rule->getConfiguration();
-            $rule->getOffer()->setUsageLimit($config['count']);
+        switch ($rule->getType()) {
+            case Rule::PRODUCT_COUNT_RULE:
+            case Rule::PRODUCT_CATEGORY_COMBINATION_RULE:
+                $config = $rule->getConfiguration();
+                $rule->getOffer()->setUsageLimit($config['count']);
+                break;
         }
 
         $this->rules[] = $rule;
