@@ -61,7 +61,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @return Collection
      */
     public function getProducts()
     {
@@ -69,7 +69,8 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @param Collection $products
+     * @return $this
      */
     public function setProducts(Collection $products)
     {
@@ -79,7 +80,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @return $this
      */
     public function clearProducts()
     {
@@ -89,7 +90,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @return integer
      */
     public function countProducts()
     {
@@ -97,7 +98,8 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @param Product $product
+     * @return $this
      */
     public function addProduct(Product $product)
     {
@@ -120,7 +122,8 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @param Product $product
+     * @return $this
      */
     public function removeProduct(Product $product)
     {
@@ -133,7 +136,8 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @param Product $product
+     * @return boolean
      */
     public function hasProduct(Product $product)
     {
@@ -141,7 +145,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @retun float
      */
     public function getProductsTotal()
     {
@@ -149,7 +153,8 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @param float $productsTotal
+     * @return $this
      */
     public function setProductsTotal($productsTotal)
     {
@@ -159,7 +164,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @return $this
      */
     public function calculateProductsTotal()
     {
@@ -177,7 +182,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @return Collection
      */
     public function getAdjustments()
     {
@@ -185,7 +190,8 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @param PriceAdjustment $adjustment
+     * @return $this
      */
     public function addAdjustment(PriceAdjustment $adjustment)
     {
@@ -198,7 +204,8 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @param PriceAdjustment $adjustment
+     * @return $this
      */
     public function removeAdjustment(PriceAdjustment $adjustment)
     {
@@ -211,7 +218,8 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @param PriceAdjustment $adjustment
+     * @return boolean
      */
     public function hasAdjustment(PriceAdjustment $adjustment)
     {
@@ -219,7 +227,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @return float
      */
     public function getAdjustmentsTotal()
     {
@@ -239,7 +247,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @return float
      */
     public function getTotal()
     {
@@ -247,7 +255,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @param float
      */
     public function setTotal($total)
     {
@@ -257,7 +265,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @return float
      */
     public function calculateTotal()
     {
@@ -270,7 +278,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
-     *
+     * @return integer
      */
     public function getTotalProducts()
     {
@@ -308,6 +316,7 @@ class Order implements PriceAdjustableInterface
     }
 
     /**
+     * @param string $categoryFilter
      * @return integer
      */
     public function getOfferSubjectProductCount($categoryFilter = null)
@@ -323,6 +332,11 @@ class Order implements PriceAdjustableInterface
         return $filtered->count();
     }
 
+    /**
+     * @param integer $maxResults
+     * @param string $categoryFilter
+     * @return Collection
+     */
     public function getCheapestProducts($maxResults = 1, $categoryFilter = null)
     {
         $criteria = Criteria::create();

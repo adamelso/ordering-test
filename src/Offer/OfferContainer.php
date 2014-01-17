@@ -45,6 +45,9 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
         }
     }
 
+    /**
+     * @return \ArrayIterator
+     */
     public function getIterator()
     {
         return count($this->offers)
@@ -53,21 +56,36 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
         ;
     }
 
+    /**
+     * @param string $offerName
+     * @param ProductOffer offerName
+     */
     public function offsetSet($offerName, $offer)
     {
         $this->offers[$offerName] = $offer;
     }
 
+    /**
+     * @param string $offerName
+     * @return ProductOffer
+     */
     public function offsetGet($offerName)
     {
         return $this->offers[$offerName];
     }
 
+    /**
+     * @param string $offerName
+     * @return boolean
+     */
     public function offsetExists($offerName)
     {
         return array_key_exists($offerName, $this->offers);
     }
 
+    /**
+     * @param string $offerName
+     */
     public function offsetUnset($offerName)
     {
         unset($this->values[$offerName]);
@@ -78,7 +96,6 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
      *
      * @param string $type
      * @param array  $configuration
-     *
      * @return Rule
      */
     public static function createRule($type, array $configuration)
@@ -96,7 +113,6 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
      *
      * @param string $type
      * @param array  $configuration
-     *
      * @return Action
      */
     public static function createAction($type, array $configuration)
@@ -115,7 +131,6 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
      * @param string $name
      * @param array  $rules
      * @param array  $actions
-     *
      * @return ProductOffer
      */
     public static function createOffer($name, array $rules, array $actions)
@@ -156,7 +171,9 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
 
     /**
      * @param string $name
-     * @param integer $productCount
+     * @param string $categoryQualifier
+     * @param string $categoryDiscountable
+     * @param float $discountPercentage
      * @return ProductOffer
      */
     public static function createCombinationOffer($name, $categoryQualifier, $categoryDiscountable, $discountPercentage)

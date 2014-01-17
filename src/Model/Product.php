@@ -49,7 +49,7 @@ class Product implements PriceAdjustableInterface
 
     /**
      * @param string $title
-     * @return Product
+     * @return $this
      */
     public function setTitle($title)
     {
@@ -67,7 +67,7 @@ class Product implements PriceAdjustableInterface
 
     /**
      * @param string $category
-     * @return Product
+     * @return $this
      */
     public function setCategory($category)
     {
@@ -85,7 +85,7 @@ class Product implements PriceAdjustableInterface
 
     /**
      * @param float $price
-     * @return Product
+     * @return $this
      */
     public function setPrice($price)
     {
@@ -115,6 +115,7 @@ class Product implements PriceAdjustableInterface
      * Set quantity.
      *
      * @param integer $quantity
+     * @return $this
      */
     public function setQuantity($quantity)
     {
@@ -132,6 +133,7 @@ class Product implements PriceAdjustableInterface
 
     /**
      * @param Order $order
+     * @return $this
      */
     public function setOrder(Order $order = null)
     {
@@ -153,6 +155,7 @@ class Product implements PriceAdjustableInterface
      * Set item total.
      *
      * @param integer $total
+     * @return $this
      */
     public function setTotal($total)
     {
@@ -163,6 +166,8 @@ class Product implements PriceAdjustableInterface
     /**
      * Calculate total based on quantity and unit price.
      * Take adjustments into account.
+     *
+     * @return $this
      */
     public function calculateTotal()
     {
@@ -173,6 +178,9 @@ class Product implements PriceAdjustableInterface
         return $this;
     }
 
+    /**
+     *
+     */
     public function calculateAdjustmentsTotal()
     {
         $this->adjustmentsTotal = 0;
@@ -187,29 +195,40 @@ class Product implements PriceAdjustableInterface
      * the same cart item. Can be overwritten to sum up quantity.
      *
      * @param Product $product
-     *
-     * @return Boolean
+     * @return boolean
      */
     public function equals(Product $product)
     {
         ///...
     }
 
+    /**
+     *
+     */
     public function getAdjustments()
     {
         //...
     }
 
+    /**
+     * @param PriceAdjustment $adjustment
+     */
     public function addAdjustment(PriceAdjustment $adjustment)
     {
         //...
     }
 
+    /**
+     * @param PriceAdjustment $adjustment
+     */
     public function removeAdjustment(PriceAdjustment $adjustment)
     {
         //..
     }
 
+    /**
+     *
+     */
     public function getAdjustmentsTotal()
     {
         ///

@@ -13,11 +13,17 @@ use Symfony\Component\Config\Definition\Processor;
  */
 class OrderingExtension implements ExtensionInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getAlias()
     {
         return 'feelunique_ordering';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
@@ -31,9 +37,7 @@ class OrderingExtension implements ExtensionInterface
     }
 
     /**
-     * Returns the base path for the XSD files.
-     *
-     * @return string The XSD base path
+     * {@inheritDoc}
      */
     public function getXsdValidationBasePath()
     {
@@ -41,9 +45,7 @@ class OrderingExtension implements ExtensionInterface
     }
 
     /**
-     * Returns the namespace to be used for this extension (XML namespace).
-     *
-     * @return string The XML namespace
+     * {@inheritDoc}
      */
     public function getNamespace()
     {

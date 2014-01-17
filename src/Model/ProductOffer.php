@@ -6,18 +6,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Product Offer.
+ *
+ * @author Adam Elsodaney <adam.elso@gmail.com>
  */
 class ProductOffer
 {
-    const FIXED_DISCOUNT_ACTION      = 'fixed_discount';
-    const PERCENTAGE_DISCOUNT_ACTION = 'percentage_discount';
-
     protected $name;
-
     protected $rules;
-
     protected $actions;
-
     protected $usageLimit;
     protected $used = 0;
 
@@ -27,23 +23,37 @@ class ProductOffer
         $this->actions = new ArrayCollection();
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getRules()
     {
         return $this->rules;
     }
 
-    public function addRule($rule)
+    /**
+     * @param Rule $rule
+     * @return $this
+     */
+    public function addRule(Rule $rule)
     {
         $rule->setOffer($this);
 
@@ -60,23 +70,37 @@ class ProductOffer
         return $this;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getActions()
     {
         return $this->actions;
     }
 
-    public function addAction($action)
+    /**
+     * @param Action $action
+     * @return $this
+     */
+    public function addAction(Action $action)
     {
         $action->setOffer($this);
         $this->actions[] = $action;
         return $this;
     }
 
+    /**
+     * @return integer
+     */
     public function getUsageLimit()
     {
         return $this->usageLimit;
     }
 
+    /**
+     * @param integer $usageLimit
+     * @return $this
+     */
     public function setUsageLimit($usageLimit)
     {
         $this->usageLimit = $usageLimit;
@@ -84,11 +108,18 @@ class ProductOffer
         return $this;
     }
 
+    /**
+     * @return integer
+     */
     public function getUsed()
     {
         return $this->used;
     }
 
+    /**
+     * @param integer $used
+     * @return $this
+     */
     public function setUsed($used)
     {
         $this->used = $used;
@@ -96,6 +127,9 @@ class ProductOffer
         return $this;
     }
 
+    /**
+     * @return integer
+     */
     public function incrementUsed()
     {
         $this->used++;

@@ -4,6 +4,8 @@ namespace FeelUnique\Ordering\Model;
 
 /**
  * Pricing adjustments when offers are applied to a product.
+ *
+ * @author Adam Elsodaney <adam.elso@gmail.com>
  */
 class PriceAdjustment
 {
@@ -44,7 +46,7 @@ class PriceAdjustment
     }
 
     /**
-     *
+     * @return integer
      */
     public function getId()
     {
@@ -52,7 +54,7 @@ class PriceAdjustment
     }
 
     /**
-     *
+     * @return Order|Product|null
      */
     public function getAdjustable()
     {
@@ -68,7 +70,8 @@ class PriceAdjustment
     }
 
     /**
-     *
+     * @param PriceAdjustableInterface $adjustable
+     * @return $this
      */
     public function setAdjustable(PriceAdjustableInterface $adjustable = null)
     {
@@ -86,7 +89,7 @@ class PriceAdjustment
     }
 
     /**
-     *
+     * @return string
      */
     public function getLabel()
     {
@@ -94,7 +97,8 @@ class PriceAdjustment
     }
 
     /**
-     *
+     * @param string $label
+     * @return $this
      */
     public function setLabel($label)
     {
@@ -104,7 +108,7 @@ class PriceAdjustment
     }
 
     /**
-     *
+     * @return float
      */
     public function getAmount()
     {
@@ -112,7 +116,8 @@ class PriceAdjustment
     }
 
     /**
-     *
+     * @param float $amount
+     * @return $this
      */
     public function setAmount($amount)
     {
@@ -122,7 +127,7 @@ class PriceAdjustment
     }
 
     /**
-     *
+     * @return boolean
      */
     public function isCharge()
     {
@@ -130,7 +135,7 @@ class PriceAdjustment
     }
 
     /**
-     *
+     * @return boolean
      */
     public function isCredit()
     {

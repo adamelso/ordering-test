@@ -63,6 +63,7 @@ class Rule
 
     /**
      * @param string $type
+     * @return $this
      */
     public function setType($type)
     {
@@ -81,6 +82,7 @@ class Rule
 
     /**
      * @param array $configuration
+     * @return $this
      */
     public function setConfiguration(array $configuration)
     {
@@ -99,6 +101,7 @@ class Rule
 
     /**
      * @param ProductOffer $offer
+     * @return $this
      */
     public function setOffer(ProductOffer $offer = null)
     {

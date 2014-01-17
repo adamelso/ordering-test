@@ -12,11 +12,14 @@ use Symfony\Component\Filesystem\Exception\IOException;
 
 use FeelUnique\Ordering\OrderProcessor\XmlImporter;
 
-/*
+/**
  * @author Adam Elsodaney <adam.elso@gmail.com>
  */
 class OrderCommand extends Command
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
@@ -26,6 +29,9 @@ class OrderCommand extends Command
         ;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $pathToXmlFile = $input->getArgument('file');

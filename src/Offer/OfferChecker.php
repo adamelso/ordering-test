@@ -7,7 +7,7 @@ use FeelUnique\Ordering\Model\ProductOffer;
 use FeelUnique\Ordering\Model\Rule;
 
 /**
- *
+ * @author Adam Elsodaney <adam.elso@gmail.com>
  */
 class OfferChecker
 {
@@ -25,6 +25,10 @@ class OfferChecker
         // $this->dispatcher = $dispatcher;
     }
 
+    /**
+     * @param string $type
+     * @return RuleCheckerInterface
+     */
     public function createRuleChecker($type)
     {
         switch ($type) {
@@ -36,7 +40,9 @@ class OfferChecker
     }
 
     /**
-     *
+     * @param Order $order
+     * @param ProductOffer $offer
+     * @return boolean
      */
     public function isEligible(Order $order, ProductOffer $offer)
     {

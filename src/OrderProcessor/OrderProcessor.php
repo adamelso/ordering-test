@@ -8,6 +8,8 @@ use FeelUnique\Ordering\Model\ProductOffer;
 
 /**
  * Order processor.
+ *
+ * @author Adam Elsodaney <adam.elso@gmail.com>
  */
 class OrderProcessor
 {
@@ -17,8 +19,6 @@ class OrderProcessor
      * @var OfferProcessor
      */
     protected $offerProcessor;
-
-    protected $offers;
 
     /**
      * Constructor.

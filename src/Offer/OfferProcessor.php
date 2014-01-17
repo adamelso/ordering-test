@@ -11,25 +11,37 @@ use FeelUnique\Ordering\Model\Category;
 
 /**
  * Processes all active offers by checking rules and applying configured actions if rules are eligible.
+ *
+ * @author Adam Elsodaney <adam.elso@gmail.com>
  */
 class OfferProcessor
 {
     protected $offerContainer;
     protected $offerChecker;
 
+    /**
+     * @param OfferContainer $offerContainer
+     * @param OfferChecker $offerChecker
+     */
     public function __construct(OfferContainer $offerContainer, OfferChecker $offerChecker)
     {
         $this->offerContainer = $offerContainer;
         $this->offerChecker = $offerChecker;
     }
 
-
+    /**
+     * @return OfferContainer
+     */
     public function getActiveOffers()
     {
         return $this->offerContainer;
     }
 
-    public function applyOffer($order, $offer)
+    /**
+     * @param Order $order
+     * @param ProductOffer $offer
+     */
+    public function applyOffer(Order $order, ProductOffer $offer)
     {
         foreach ($offer->getRules() as $rule) {
             $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $offer->getUsageLimit());
@@ -55,6 +67,9 @@ class OfferProcessor
         }
     }
 
+    /**
+     * @param Order $order
+     */
     public function process(Order $order)
     {
         foreach ($this->offerContainer as $offer) {
@@ -64,6 +79,11 @@ class OfferProcessor
         }
     }
 
+    /**
+     * @param \Doctrine\Common\Collections\Collection $actions
+     * @param float $amount
+     * @return PriceAdjustment
+     */
     public function createPriceAdjustment($actions, $amount)
     {
         $priceAdjustment = new PriceAdjustment();
