@@ -16,7 +16,14 @@ use FeelUnique\Ordering\Model\Category;
  */
 class OfferProcessor
 {
+    /**
+     * @var OfferContainer
+     */
     protected $offerContainer;
+
+    /**
+     * @var OfferChecker
+     */
     protected $offerChecker;
 
     /**
