@@ -17,19 +17,6 @@ class XmlImporter
     protected $orderData;
 
     /**
-     * @var Order
-     */
-    protected $order;
-
-    /**
-     *
-     */
-    public function __construct()
-    {
-        $this->order = new Order();
-    }
-
-    /**
      * @return \SimpleXMLElement
      */
     public function getXmlOrderData()
@@ -47,6 +34,8 @@ class XmlImporter
      */
     public function import($xmlFile)
     {
+        $order = new Order();
+
         $this->orderData = simplexml_load_file($xmlFile);
 
         $categories = array();
@@ -73,9 +62,9 @@ class XmlImporter
                 ->setPrice($productAttributes['price'])
             ;
 
-            $this->order->addProduct($product);
+            $order->addProduct($product);
         }
 
-        return $this->order;
+        return $order;
     }
 }
