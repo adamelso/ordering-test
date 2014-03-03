@@ -11,10 +11,29 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class ProductOffer
 {
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var ArrayCollection
+     */
     protected $rules;
+
+    /**
+     * @var ArrayCollection
+     */
     protected $actions;
+
+    /**
+     * @var integer
+     */
     protected $usageLimit;
+
+    /**
+     * @var integer
+     */
     protected $used = 0;
 
     public function __construct()
