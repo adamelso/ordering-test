@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use FeelUnique\Ordering\OrderProcessor\XmlImporter;
+use FeelUnique\Ordering\Importer\XmlImporter;
 
 /**
  * @author Adam Elsodaney <adam.elso@gmail.com>

@@ -1,6 +1,6 @@
 <?php
 
-namespace FeelUnique\Ordering\OrderProcessor;
+namespace FeelUnique\Ordering\Importer;
 
 use FeelUnique\Ordering\Model\Order;
 use FeelUnique\Ordering\Model\Category;
@@ -9,7 +9,7 @@ use FeelUnique\Ordering\Model\Product;
 /**
  * @author Adam Elsodaney <adam.elso@gmail.com>
  */
-class XmlImporter
+class XmlImporter implements ImporterInterface
 {
     /**
      * @var \SimpleXMLElement

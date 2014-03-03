@@ -1,8 +1,8 @@
 <?php
 
-namespace FeelUnique\Ordering\Tests\OrderProcessor;
+namespace FeelUnique\Ordering\Tests\Importer;
 
-use FeelUnique\Ordering\OrderProcessor\XmlImporter;
+use FeelUnique\Ordering\Importer\XmlImporter;
 
 class XmlImporterTest extends \PHPUnit_Framework_TestCase
 {
