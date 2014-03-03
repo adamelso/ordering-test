@@ -1,5 +1,5 @@
 parameters:
-    xml_importer.class:    FeelUnique\Ordering\OrderProcessor\XmlImporter
+    xml_importer.class:    FeelUnique\Ordering\Importer\XmlImporter
     order_processor.class: FeelUnique\Ordering\OrderProcessor\OrderProcessor
     offer_processor.class: FeelUnique\Ordering\Offer\OfferProcessor
     offer_container.class: FeelUnique\Ordering\Offer\OfferContainer
