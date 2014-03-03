@@ -47,7 +47,7 @@ class OrderCommand extends Command
                 $output,
                 'Please specify the XML file to import: ',
                 false,
-                array('src/Resources/data/order.xml', 'order.xml')
+                ['src/Resources/data/order.xml', 'order.xml']
             );
         }
 
@@ -64,8 +64,9 @@ class OrderCommand extends Command
 
         $orderProcessor->processOrder($order);
 
-        $output->writeln(
+        $output->writeln(sprintf(
+            "Order total: £ %s",
             $order->calculateTotal()->getTotal()
-        );
+        ));
     }
 }
