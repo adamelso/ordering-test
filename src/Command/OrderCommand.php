@@ -7,9 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOException;
-
 use FeelUnique\Ordering\OrderProcessor\XmlImporter;
 
 /**
@@ -34,10 +31,14 @@ class OrderCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $pathToXmlFile = $input->getArgument('file');
-
-        $fs = new Filesystem();
+        /**
+         * The service container.
+         *
+         * @var Symfony\Component\DependencyInjection\ContainerInterface
+         */
         $container = $this->getApplication()->getContainer();
+
+        $pathToXmlFile = $input->getArgument('file');
 
         if (!$pathToXmlFile) {
             $dialog = $this->getHelperSet()->get('dialog');
@@ -51,7 +52,7 @@ class OrderCommand extends Command
         }
 
         $output->writeln(
-            $fs->exists(getcwd() . $pathToXmlFile)
+            $container->get('filesystem')->exists(getcwd() . $pathToXmlFile)
                 ? sprintf('<error>The XML file "%s" could not be found</error>', $pathToXmlFile)
                 : sprintf('<info>Reading XML file "%s"</info>', $pathToXmlFile)
         );

@@ -6,6 +6,8 @@ parameters:
     offer_checker.class:   FeelUnique\Ordering\Offer\OfferChecker
 
 services:
+    filesystem:
+        class: Symfony\Component\Filesystem\Filesystem
     event_dispatcher:
         class: Symfony\Component\EventDispatcher\EventDispatcher
     xml_importer:
