@@ -30,3 +30,46 @@ if ($application instanceof ContainerAwareInterface) {
 }
 
 $application->run();
+
+/*
+
+This isn't the Symfony Standard Edition, nor is it a Bundle, but the components
+have been structured together to bear some similarities with Symfony Bundles and
+to illustrate how Symfony is put together, minus the Kernel.
+
+The Symfony HttpKernel component is not used as this is a command line
+application and does not need to handle HTTP Requests or send a Response.
+
+Instead, Symfony\Component\Console\Application is treated as the kernel with
+input and output handling delegated to a Command child class.
+
+Symfony\Component\Console\Command\Command::execute(Input, Output)
+would be analogous to
+Symfony\Component\HttpKernel\HttpKernelInterface::handle(Request, Response)
+
+
+                                               ┌──────────────┐          ┌─────────────┐
+Config                                         │ services.yml │          │ config.yml  │
+                                               └───────┬──────┘          └──────┬──────┘
+                                                       │                        │
+                       ┏━━━━━━━━━━━━━━━┓       ┏━━━━━━━┷━━━━━━━┓        ┏━━━━━━━┷━━━━━━━┓
+DependencyInjection    ┃   Container   ┣━━━━━━━┫   Extension   ┣━━━━━━━━┫ Configuration ┃
+                       ┗━━━━━━━┳━━━━━━━┛       ┗━━━━━━━━━━━━━━━┛        ┗━━━━━━━━━━━━━━━┛
+                               ┃
+                       ┏━━━━━━━┻━━━━━━━┓       ┏━━━━━━━━━━━━━━━┓
+Console                ┃  Application  ┣━━━━━━━┫ OrderCommand  ┃
+                       ┗━━━━━━━━━━━━━━━┛       ┗━━━━━━━┳━━━━━━━┛
+                                                       ┃
+                                                       ┃
+                                                       ┃
+                                               ┏━━━━━━━┻━━━━━━━┓
+FeelUnique                                     ┃  XmlImporter  ┃
+                                               ┗━━━━━━━┳━━━━━━━┛
+                                                       ┃
+                                               ┏━━━━━━━┻━━━━━━━━┓
+                                               ┃ OrderProcessor ┃
+                                               ┗━━━━━━━┳━━━━━━━━┛
+                                                       ┃
+                                                ( other classes )
+
+*/
