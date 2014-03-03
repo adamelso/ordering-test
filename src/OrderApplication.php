@@ -3,10 +3,10 @@
 namespace FeelUnique\Ordering;
 
 use FeelUnique\Ordering\Command\OrderCommand;
-
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -14,18 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class OrderApplication extends Application implements ContainerAwareInterface
 {
-    /**
-     * @var ContainerInterface $container
-     */
-    protected $container;
-
-    /**
-     * @param ContainerInterface|null $container
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
+    use ContainerAwareTrait;
 
     /**
      * @return ContainerInterface
