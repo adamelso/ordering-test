@@ -1,6 +1,6 @@
 <?php
 
-namespace FeelUnique\Ordering\Features;
+namespace FeelUnique\Context;
 
 use Behat\Behat\Context\ClosuredContextInterface;
 use Behat\Behat\Context\TranslatedContextInterface;
@@ -31,38 +31,40 @@ class OrderContext extends BehatContext
     /**
      * @var boolean[]
      */
-    protected $offersAvailable = array(
+    protected $offersAvailable = [
         '3 for the price of 2' => false,
         "Buy Shampoo & get Conditioner for 50% off" => false,
-    );
-
-    protected $products = array();
-
-    protected $unprocessedOrderTotal = 0;
-
-    protected $orderProcessor;
-
-    protected $order;
+    ];
 
     /**
-     * Initializes context.
-     * Every scenario gets it's own context object.
-     *
-     * @param array $parameters context parameters (set them up through behat.yml)
+     * @var Product[]
      */
-    public function __construct(array $parameters)
-    {
-    }
+    protected $products = [];
+
+    /**
+     * @var integer
+     */
+    protected $unprocessedOrderTotal = 0;
+
+    /**
+     * @var OrderProcessor
+     */
+    protected $orderProcessor;
+
+    /**
+     * @var Order
+     */
+    protected $order;
 
     private function createOrderProcessor()
     {
-        $offerConfig = array();
+        $offerConfig = [];
 
         foreach ($this->offersAvailable as $offerName => $isActive) {
-            $offerConfig[] = array(
+            $offerConfig[] = [
                 'offer' => $offerName,
                 'active' => $isActive
-            );
+            ];
         }
 
         $offerContainer = new OfferContainer($offerConfig);
@@ -90,8 +92,8 @@ class OrderContext extends BehatContext
     public function theFollowingProductsArePutOnTheOrder(TableNode $productsTable)
     {
         $order = new Order();
-        $products = array();
-        $categories = array();
+        $products = [];
+        $categories = [];
 
         foreach ($productsTable->getHash() as $productHash) {
             $product = new Product();

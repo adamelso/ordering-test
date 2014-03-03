@@ -1,2 +1,6 @@
+# Using default configuration
 default:
-    context: { class: FeelUnique\Ordering\Features\OrderContext }
+    paths:
+        features: features
+    context:
+        class: FeelUnique\Context\FeatureContext
