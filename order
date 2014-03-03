@@ -9,20 +9,24 @@ use FeelUnique\Ordering\DependencyInjection\OrderingExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
-
-
-$container = new ContainerBuilder();
-$extension = new OrderingExtension();
-
-$container->registerExtension($extension);
-$container->loadFromExtension($extension->getAlias());
-
-$loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/src/Resources/config'));
-$loader->load('config.yml');
-
-
-$container->compile();
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 $application = new OrderApplication();
-$application->setContainer($container);
+
+if ($application instanceof ContainerAwareInterface) {
+    $container = new ContainerBuilder();
+    $extension = new OrderingExtension();
+
+    $container->registerExtension($extension);
+    $container->loadFromExtension($extension->getAlias());
+
+    $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/src/Resources/config'));
+    $loader->load('config.yml');
+
+
+    $container->compile();
+
+    $application->setContainer($container);
+}
+
 $application->run();
