@@ -46,7 +46,7 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
     }
 
     /**
-     * @return \ArrayIterator
+     * @return \Iterator
      */
     public function getIterator()
     {
