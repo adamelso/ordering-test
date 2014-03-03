@@ -87,11 +87,11 @@ class OfferProcessor
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $actions
+     * @param \Traversable $actions
      * @param float $amount
      * @return PriceAdjustment
      */
-    public function createPriceAdjustment($actions, $amount)
+    public function createPriceAdjustment(\Traversable $actions, $amount)
     {
         $priceAdjustment = new PriceAdjustment();
 
