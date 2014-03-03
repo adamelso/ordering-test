@@ -22,7 +22,6 @@ class OfferChecker
     public function __construct(OfferContainer $offerContainer)
     {
         $this->offerContainer = $offerContainer;
-        // $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -53,13 +52,6 @@ class OfferChecker
         }
 
         foreach ($offer->getRules() as $rule) {
-            // if (! (
-            //     $rule->getType() === Rule::PRODUCT_COUNT_RULE &&
-            //     $numberOfEligibleProducts = floor($order->getOfferSubjectProductCount() / $offer->getUsageLimit())
-            // )) {
-            //     return false;
-            // }
-
             $checker = $this->createRuleChecker($rule->getType());
 
             if (false === $checker->isEligible($order, $rule->getConfiguration())) {
