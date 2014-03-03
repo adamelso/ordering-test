@@ -52,7 +52,7 @@ class OfferContainer implements \ArrayAccess, \IteratorAggregate
     {
         return count($this->offers)
             ? new \ArrayIterator($this->offers)
-            : new \ArrayIterator(array())
+            : new \EmptyIterator()
         ;
     }
 
