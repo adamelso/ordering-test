@@ -13,8 +13,8 @@ services:
     xml_importer:
         class: "%xml_importer.class%"
     offer_container:
-         class: "%offer_container.class%"
-         arguments: [ "%offers%" ]
+        class: "%offer_container.class%"
+        arguments: [ "%offers%" ]
     offer_checker:
         class: "%offer_checker.class%"
         arguments: [ "@offer_container" ]
