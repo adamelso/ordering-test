@@ -49,6 +49,6 @@ class OrderingExtension implements ExtensionInterface
      */
     public function getNamespace()
     {
-        return 'http://example.org/schema/dic/'.$this->getAlias();
+        return 'http://feelunique.com/schema/dic/'.$this->getAlias();
     }
 }
